@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "https://resume-analysis-report-backend-zh1s.vercel.app/",
+  baseURL: "https://resume-analysis-report-backend-zh1s.vercel.app",
 });
 
 export const analyzeResume = async (file) => {
