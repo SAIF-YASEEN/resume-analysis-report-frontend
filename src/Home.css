@@ -1,0 +1,807 @@
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  background: #070a10;
+  color: #f8fafc;
+  overflow: hidden;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.app {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 600px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at 50% 40%,
+      rgba(59, 130, 246, 0.09),
+      transparent 32%
+    ),
+    #070a10;
+}
+
+/* Subtle background grid */
+
+.app::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.35;
+
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+
+  background-size: 42px 42px;
+
+  mask-image: linear-gradient(
+    to bottom,
+    black 0%,
+    rgba(0, 0, 0, 0.7) 50%,
+    transparent 100%
+  );
+}
+
+/* Header */
+
+.header {
+  position: relative;
+  z-index: 2;
+
+  height: 72px;
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 42px;
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  background: rgba(7, 10, 16, 0.72);
+
+  backdrop-filter: blur(14px);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+}
+
+.brand-icon {
+  width: 32px;
+  height: 32px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 9px;
+
+  background: linear-gradient(135deg, #3b82f6, #6366f1);
+
+  color: white;
+  font-size: 11px;
+  font-weight: 800;
+
+  box-shadow: 0 5px 20px rgba(59, 130, 246, 0.2);
+}
+
+.header-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  color: #94a3b8;
+  font-size: 13px;
+}
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+
+  border-radius: 50%;
+  background: #22c55e;
+
+  box-shadow: 0 0 10px rgba(34, 197, 94, 0.55);
+}
+
+/* Main */
+
+.main {
+  position: relative;
+  z-index: 1;
+
+  flex: 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 25px 20px;
+  min-height: 0;
+}
+
+.hero {
+  width: min(650px, 100%);
+  text-align: center;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.eyebrow {
+  margin: 0 0 13px;
+
+  color: #60a5fa;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.hero h1 {
+  margin: 0;
+
+  max-width: 650px;
+
+  font-size: clamp(34px, 4vw, 50px);
+  line-height: 1.08;
+  letter-spacing: -2px;
+  font-weight: 750;
+}
+
+.hero h1 span {
+  display: block;
+
+  background: linear-gradient(
+    90deg,
+    #60a5fa,
+    #818cf8
+  );
+
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.subtitle {
+  max-width: 540px;
+
+  margin: 17px 0 27px;
+
+  color: #8b98aa;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+/* Upload */
+
+.upload-box {
+  width: 100%;
+  min-height: 190px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  padding: 25px;
+
+  border: 1px dashed rgba(148, 163, 184, 0.3);
+  border-radius: 17px;
+
+  background: rgba(15, 23, 42, 0.46);
+
+  cursor: pointer;
+
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.upload-box:hover {
+  border-color: rgba(96, 165, 250, 0.6);
+  background: rgba(30, 41, 59, 0.45);
+}
+
+.upload-box.dragging {
+  border-color: #60a5fa;
+  background: rgba(59, 130, 246, 0.09);
+  transform: scale(1.01);
+}
+
+.upload-box.has-file {
+  cursor: default;
+  border-style: solid;
+  border-color: rgba(96, 165, 250, 0.3);
+}
+
+.upload-icon {
+  width: 48px;
+  height: 48px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 13px;
+
+  border-radius: 13px;
+
+  background: rgba(59, 130, 246, 0.1);
+  color: #60a5fa;
+}
+
+.upload-icon svg {
+  width: 23px;
+  height: 23px;
+}
+
+.upload-box h2 {
+  margin: 0 0 7px;
+
+  font-size: 16px;
+  font-weight: 650;
+}
+
+.upload-box p {
+  margin: 0;
+
+  color: #7f8da1;
+  font-size: 13px;
+}
+
+.upload-box p span {
+  color: #60a5fa;
+  font-weight: 600;
+}
+
+.file-types {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  margin-top: 17px;
+}
+
+.file-types span {
+  padding: 4px 8px;
+
+  border-radius: 5px;
+
+  background: rgba(148, 163, 184, 0.08);
+
+  color: #94a3b8;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.file-types small {
+  margin-left: 3px;
+
+  color: #64748b;
+  font-size: 10px;
+}
+
+/* Selected file */
+
+.selected-file {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+
+  gap: 13px;
+
+  text-align: left;
+}
+
+.file-icon {
+  width: 45px;
+  height: 45px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 11px;
+
+  background: rgba(59, 130, 246, 0.1);
+  color: #60a5fa;
+}
+
+.file-icon svg {
+  width: 21px;
+  height: 21px;
+}
+
+.file-info {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  flex: 1;
+}
+
+.file-info strong {
+  overflow: hidden;
+
+  color: #e2e8f0;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.file-info span {
+  color: #64748b;
+  font-size: 11px;
+}
+
+.remove-file {
+  width: 30px;
+  height: 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 0;
+  border-radius: 8px;
+
+  background: rgba(239, 68, 68, 0.08);
+  color: #f87171;
+
+  font-size: 20px;
+  line-height: 1;
+
+  cursor: pointer;
+
+  transition: background 0.2s ease;
+}
+
+.remove-file:hover {
+  background: rgba(239, 68, 68, 0.16);
+}
+
+/* Analyze button */
+
+.analyze-button {
+  margin-top: 17px;
+
+  min-width: 190px;
+  height: 46px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+
+  border: 0;
+  border-radius: 10px;
+
+  background: #3b82f6;
+  color: white;
+
+  font-size: 13px;
+  font-weight: 650;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 8px 25px rgba(59, 130, 246, 0.2);
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.analyze-button svg {
+  width: 16px;
+  height: 16px;
+}
+
+.analyze-button:hover:not(:disabled) {
+  background: #2563eb;
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 10px 30px rgba(59, 130, 246, 0.28);
+}
+
+.analyze-button:disabled {
+  background: #1e293b;
+  color: #475569;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.privacy-note {
+  margin: 12px 0 0;
+
+  color: #475569;
+  font-size: 10px;
+}
+
+/* Footer */
+
+.footer {
+  position: relative;
+  z-index: 2;
+
+  height: 55px;
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 42px;
+
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+
+  color: #475569;
+  font-size: 11px;
+}
+
+.footer-links {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer-separator {
+  color: #334155;
+}
+
+/* Responsive */
+
+@media (max-width: 650px) {
+  .header {
+    height: 64px;
+    padding: 0 20px;
+  }
+
+  .header-status {
+    display: none;
+  }
+
+  .main {
+    padding: 20px;
+  }
+
+  .hero h1 {
+    font-size: 35px;
+    letter-spacing: -1.5px;
+  }
+
+  .subtitle {
+    margin-top: 14px;
+    margin-bottom: 22px;
+  }
+
+  .upload-box {
+    min-height: 180px;
+  }
+
+  .footer {
+    height: 48px;
+    padding: 0 20px;
+  }
+
+  .footer-links {
+    display: none;
+  }
+}
+
+@media (max-height: 700px) {
+  .header {
+    height: 60px;
+  }
+
+  .footer {
+    height: 45px;
+  }
+
+  .hero h1 {
+    font-size: 36px;
+  }
+
+  .subtitle {
+    margin: 10px 0 18px;
+  }
+
+  .upload-box {
+    min-height: 155px;
+    padding: 18px;
+  }
+
+  .upload-icon {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 9px;
+  }
+}/* ================================
+   ANALYSIS PROGRESS
+================================ */
+
+.analysis-progress {
+  width: 100%;
+  margin-top: 15px;
+  padding: 14px 16px;
+  border: 1px solid rgba(96, 165, 250, 0.16);
+  border-radius: 12px;
+  background: rgba(15, 23, 42, 0.55);
+  animation: progressAppear 0.25s ease;
+}
+
+.progress-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 10px;
+}
+
+.progress-status {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #cbd5e1;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.progress-status > span:last-child {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.progress-percent {
+  flex-shrink: 0;
+  color: #60a5fa;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.progress-track {
+  width: 100%;
+  height: 6px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(148, 163, 184, 0.1);
+}
+
+.progress-bar {
+  position: relative;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(
+    90deg,
+    #3b82f6,
+    #6366f1
+  );
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.35);
+  transition: width 0.7s ease;
+}
+
+.progress-bar::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 60px;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.35),
+    transparent
+  );
+  animation: progressShine 1.5s infinite;
+}
+
+.progress-steps {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 9px;
+  color: #475569;
+  font-size: 9px;
+  font-weight: 600;
+}
+
+.progress-steps span {
+  transition: color 0.3s ease;
+}
+
+.progress-steps span.active {
+  color: #60a5fa;
+}
+
+
+/* ================================
+   LOADER
+================================ */
+
+.loader {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+  border: 2px solid rgba(96, 165, 250, 0.2);
+  border-top-color: #60a5fa;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.button-loader {
+  width: 15px;
+  height: 15px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+
+/* ================================
+   ANALYZING STATE
+================================ */
+
+.upload-box.analyzing {
+  cursor: default;
+  border-color: rgba(96, 165, 250, 0.2);
+}
+
+.analyze-button.loading {
+  background: #2563eb;
+  cursor: wait;
+  box-shadow: 0 8px 25px rgba(59, 130, 246, 0.25);
+}
+
+
+/* ================================
+   ERROR
+================================ */
+
+.error-message {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 12px;
+  padding: 10px 12px;
+  border: 1px solid rgba(248, 113, 113, 0.16);
+  border-radius: 9px;
+  background: rgba(239, 68, 68, 0.06);
+  color: #fca5a5;
+  text-align: left;
+  font-size: 11px;
+  line-height: 1.4;
+  animation: errorAppear 0.2s ease;
+}
+
+.error-icon {
+  width: 17px;
+  height: 17px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+
+/* ================================
+   ANIMATIONS
+================================ */
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes progressAppear {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes errorAppear {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes progressShine {
+  from {
+    transform: translateX(-80px);
+  }
+
+  to {
+    transform: translateX(80px);
+  }
+}
+
+
+/* ================================
+   RESPONSIVE PROGRESS
+================================ */
+
+@media (max-width: 650px) {
+  .analysis-progress {
+    padding: 12px;
+  }
+
+  .progress-header {
+    margin-bottom: 9px;
+  }
+
+  .progress-status {
+    font-size: 11px;
+  }
+
+  .progress-steps {
+    font-size: 8px;
+  }
+}
